@@ -2,8 +2,6 @@
 
 from bs4 import BeautifulSoup
 import requests
-import inquirer
-
 
 def extractor(track_name):
     main_url = "https://www.lyricfinder.org/search/tracks/"
