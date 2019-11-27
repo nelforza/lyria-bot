@@ -2,7 +2,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-from telegram.ext import Updater, CommandHandler, Filters
+from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
 
 
 def main():
