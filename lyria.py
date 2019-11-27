@@ -7,14 +7,13 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 
-
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="کافیه اسم آهنگی که متنش رو می‌خوای تایپ کنی!")
 
     
 
 
-def extractor(track_name, ):
+def extractor(track_name, update, context):
     main_url = "https://www.lyricfinder.org/search/tracks/"
     req_url = main_url + track_name
     header= {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0'}
@@ -51,12 +50,6 @@ def extractor(track_name, ):
         context.bot.send_message(chat_id=update.effective_chat.id, text='نتایج:', reply_markup=reply_markup)
 
 
-    
- 
-
-
-
-
 
 def isEnglish(user_input):
     try:
@@ -68,7 +61,7 @@ def isEnglish(user_input):
 
 def get_track(update, context):
     if isEnglish(update.message.text):
-        extractor(update.message.text)
+        extractor(update.message.text, update, context)
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text='انگلیسی تایپ کن دیگه :)')
 
@@ -76,7 +69,7 @@ def get_track(update, context):
 
 
 def main():
-    updater = Updater(token='1006025104:AAGOYKqn6zjXCrnxwqDUtX_kCmNUSQy1UZg', use_context=True)
+    updater = Updater(token='TOKEN', use_context=True)
     dispatcher = updater.dispatcher
     start_handler = CommandHandler('start', start)
     track_handler = MessageHandler(Filters.text, get_track)
