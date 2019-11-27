@@ -54,10 +54,10 @@ def get_track(update, context):
             return True
 
             
-        if isEnglish(update.message.from_user) == True:
-            context.bot.send_message(chat_id=update.effective_chat.id, text=print(extractor(update.message.from_user)))
-        else:
-            context.bot.send_message(chat_id=update.effective_chat.id, text='انگلیسی تایپ کن دیگه :)')
+    if isEnglish(update.message.from_user):
+        context.bot.send_message(chat_id=update.effective_chat.id, text=print(extractor(update.message.from_user)))
+    else:
+        context.bot.send_message(chat_id=update.effective_chat.id, text='انگلیسی تایپ کن دیگه :)')
 
 
 def main():
