@@ -2,9 +2,8 @@
 
 import requests
 from bs4 import BeautifulSoup
-from telegram.ext import Updater
-from telegram.ext import CommandHandler
-from telegram.ext import MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, Filters
+
 
 def main():
     updater = Updater(token='Token'', use_context=True)
