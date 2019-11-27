@@ -1,7 +1,20 @@
 #!/bin/python3
 
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
+from telegram.ext import Updater
+from telegram.ext import CommandHandler
+from telegram.ext import MessageHandler, Filters
+
+updater = Updater(token='TOKEN', use_context=True)
+dispatcher = updater.dispatcher
+
+def start(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="کافیه اسم آهنگی که متنش رو می‌خوای تایپ کنی!")
+
+start_handler = CommandHandler('start', start)
+dispatcher.add_handler(start_handler)
+
 
 def extractor(track_name):
     main_url = "https://www.lyricfinder.org/search/tracks/"
@@ -34,5 +47,23 @@ def extractor(track_name):
     return all_info
 
 
-track_name = input("Track name: ")
-print(extractor(track_name))
+def get_track(update, context):
+    def isEnglish(user_input):
+        try:
+            user_input.encode(encoding='utf-8').decode('ascii')
+        except UnicodeDecodeError:
+            return False
+        else:
+            return True
+
+        if isEnglish(update.message.text) == True:
+            context.bot.send_message(chat_id=update.effective_chat.id, text=print(extractor(update.message.text)))
+        else:
+            context.bot.send_message(chat_id=update.effective_chat.id, text='انگلیسی تایپ کن دیگه :)')
+
+track_handler = MessageHandler(Filters.text, get_track)
+dispatcher.add_handler(track_handler)
+
+
+if __name__ == "__main__":
+    updater.start_polling()
