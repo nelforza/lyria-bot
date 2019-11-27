@@ -2,11 +2,8 @@
 A Telegram bot which helps you to find your lyrics 
 
 ### Features :
-  ![gif 1]( "")
-  1. You can find lyrics with artist, song name.
-  
-  ![screenshot 1]( "")
-  2. You can get all info about lyrics and artist group too
+  1. Helps you to find lyrics with artists and songs' names.
+  2. You can get recieve information about Artist(s)
   
 ## Setup
 ### 1. Requirements
@@ -26,4 +23,4 @@ A Telegram bot which helps you to find your lyrics
 
 ## License
 
-GPL
+GPLv3+
