@@ -42,25 +42,27 @@ def extractor(track_name):
         'lyrics-link': links[i]
         }
         all_info.append(info)
-    return all_info
-
-
-def menu():
-    scraper = extractor(update.message.text)
+    
+    
     button_list = []
     for i in range(0, len(artists)):
-        button_list.append('InlineKeyboardButton(%s, callback_data=%s)' % (scraper[i]['title'], scraper[i]['lyrics_link']))
+        button_list.append('InlineKeyboardButton(%s, callback_data=%s)' % (all_info[i]['title'], all_info[i]['lyrics_link']))
+    
+ 
+
+
+
+
+
+def isEnglish(user_input):
+    try:
+        user_input.encode(encoding='utf-8').decode('ascii')
+    except UnicodeDecodeError:
+        return False
+    else:
+        return True
 
 def get_track(update, context):
-    def isEnglish(user_input):
-        try:
-            user_input.encode(encoding='utf-8').decode('ascii')
-        except UnicodeDecodeError:
-            return False
-        else:
-            return True
-
-
     if isEnglish(update.message.text):
         menu()
     else:
@@ -70,7 +72,7 @@ def get_track(update, context):
 
 
 def main():
-    updater = Updater(token='TOKEN', use_context=True)
+    updater = Updater(token='1006025104:AAGOYKqn6zjXCrnxwqDUtX_kCmNUSQy1UZg', use_context=True)
     dispatcher = updater.dispatcher
     start_handler = CommandHandler('start', start)
     track_handler = MessageHandler(Filters.text, get_track)
