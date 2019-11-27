@@ -14,7 +14,7 @@ def start(update, context):
     
 
 
-def extractor(track_name):
+def extractor(track_name, ):
     main_url = "https://www.lyricfinder.org/search/tracks/"
     req_url = main_url + track_name
     header= {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0'}
@@ -47,6 +47,10 @@ def extractor(track_name):
     button_list = []
     for i in range(0, len(artists)):
         button_list.append('InlineKeyboardButton(%s, callback_data=%s)' % (all_info[i]['title'], all_info[i]['lyrics_link']))
+        reply_markup = InlineKeyboardMarkup(util.build_menu(button_list, n_cols=2))
+        context.bot.send_message(chat_id=update.effective_chat.id, text='نتایج:', reply_markup=reply_markup)
+
+
     
  
 
@@ -64,7 +68,7 @@ def isEnglish(user_input):
 
 def get_track(update, context):
     if isEnglish(update.message.text):
-        menu()
+        extractor(update.message.text)
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text='انگلیسی تایپ کن دیگه :)')
 
