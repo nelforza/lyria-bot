@@ -6,7 +6,7 @@ from telegram.ext import Updater, CommandHandler, Filters
 
 
 def main():
-    updater = Updater(token='Token'', use_context=True)
+    updater = Updater(token='Token', use_context=True)
     dispatcher = updater.dispatcher
 
     def start(update, context):
