@@ -3,6 +3,7 @@
 import requests
 from bs4 import BeautifulSoup
 from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 
@@ -44,6 +45,12 @@ def extractor(track_name):
     return all_info
 
 
+def menu():
+    scraper = extractor(update.message.text)
+    button_list = []
+    for i in range(0, len(artists)):
+        button_list.append('InlineKeyboardButton(%s, callback_data=%s)' % (scraper[i]['title'], scraper[i]['lyrics_link']))
+
 def get_track(update, context):
     def isEnglish(user_input):
         try:
@@ -53,20 +60,22 @@ def get_track(update, context):
         else:
             return True
 
-    
+
     if isEnglish(update.message.text):
-        context.bot.send_message(chat_id=update.effective_chat.id, text=extractor(update.message.text))
+        menu()
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text='انگلیسی تایپ کن دیگه :)')
 
 
+
+
 def main():
-    updater = Updater(token='Token', use_context=True)
+    updater = Updater(token='TOKEN', use_context=True)
     dispatcher = updater.dispatcher
     start_handler = CommandHandler('start', start)
-    dispatcher.add_handler(start_handler)
     track_handler = MessageHandler(Filters.text, get_track)
     dispatcher.add_handler(track_handler)
+    dispatcher.add_handler(start_handler)
     updater.start_polling()
     updater.idle()
 
