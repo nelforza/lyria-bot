@@ -80,7 +80,7 @@ def main():
     ####  Starting the bot ####
 
     # creates Updater and passes TOKEN
-    updater = Updater(token='1006025104:AAEltikc297DUmXylZ51z3_TFFvSWaeZ1ko', use_context=True)
+    updater = Updater(token='TOKEN', use_context=True)
     
     # Getting dispatcher to register handlers
     dp = updater.dispatcher
