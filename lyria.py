@@ -51,7 +51,8 @@ def extractor(track_name, update, context):
         all_info.append(info)
 
         ## This is a fucking test
-        context.bot.send_message(chat_id=update.effective_chat.id, text=all_info)
+        
+        context.bot.send_message(chat_id=update.effective_chat.id, text='صبر کن دارم پیدا می‌کنم \n %s' % (all_info))
         
 
 # Checks if the track's name is written in English
@@ -63,7 +64,7 @@ def isEnglish(user_input):
     else:
         return True
 
-# If text in English it passes the text to extractor
+# If text is in English it passes the text to extractor
 def get_track(update, context):
     if isEnglish(update.message.text):
         extractor(update.message.text, update, context)
@@ -87,9 +88,9 @@ def main():
     # Registering my functions
     start_handler = CommandHandler('start', start)
     track_handler = MessageHandler(Filters.text, get_track)
-    extractor_handler = MessageHandler(Filters.text, extractor)
+    #extractor_handler = MessageHandler(Filters.text, extractor)
 
-    dp.add_handler(extractor_handler)
+    #dp.add_handler(extractor_handler)
     dp.add_handler(track_handler)
     dp.add_handler(start_handler)
 
@@ -99,7 +100,7 @@ def main():
     # Starts BOT
     updater.start_polling()
 
-    # Stops the Process when you press CTRL+C
+    # Keep it active untile CTRL + C
     updater.idle()
 
 if __name__ == "__main__":
