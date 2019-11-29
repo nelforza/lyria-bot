@@ -50,9 +50,14 @@ def extractor(track_name, update, context):
 
         all_info.append(info)
 
-        ## This is a fucking test
         
-        context.bot.send_message(chat_id=update.effective_chat.id, text='صبر کن دارم پیدا می‌کنم \n %s' % (all_info))
+        if len(all_info) == '0':
+            context.bot.send_message(chat_id=update.effective_chat.id, text='چیزی با این اسم پیدا نکردم والا!')
+        else:
+            for i in range(0, len(all_info)):
+                context.bot.send_message(chat_id=update.effective_chat.id, text='%d => %s' % (i, all_info[i]['title']))
+                
+
         
 
 # Checks if the track's name is written in English
@@ -88,9 +93,7 @@ def main():
     # Registering my functions
     start_handler = CommandHandler('start', start)
     track_handler = MessageHandler(Filters.text, get_track)
-    #extractor_handler = MessageHandler(Filters.text, extractor)
 
-    #dp.add_handler(extractor_handler)
     dp.add_handler(track_handler)
     dp.add_handler(start_handler)
 
