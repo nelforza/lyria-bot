@@ -51,11 +51,11 @@ def extractor(track_name, update, context):
         all_info.append(info)
 
         
-        if len(all_info) == '0':
-            context.bot.send_message(chat_id=update.effective_chat.id, text='چیزی با این اسم پیدا نکردم والا!')
-        else:
-            for i in range(0, len(all_info)):
-                context.bot.send_message(chat_id=update.effective_chat.id, text='%d => %s' % (i, all_info[i]['title']))
+    if len(all_info) == '0':
+        context.bot.send_message(chat_id=update.effective_chat.id, text='چیزی با این اسم پیدا نکردم والا!')
+    else:
+        for i in range(0, len(all_info)):
+            context.bot.send_message(chat_id=update.effective_chat.id, text='%d => %s' % (i, all_info[i]['title']))
                 
 
         
