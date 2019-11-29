@@ -3,7 +3,7 @@ A Telegram bot which helps you to find your lyrics
 
 ### Features :
   1. Helps you to find lyrics with artists and songs' names.
-  2. You can get recieve information about Artist(s)
+  2. You can recieve information about Artist(s)
   
 ## Setup
 ### 1. Requirements
