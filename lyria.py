@@ -1,18 +1,25 @@
 #!/bin/python3
 
+import logging
 import requests
 from bs4 import BeautifulSoup
 from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
+# Logging 
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
 
+logger = logging.getLogger(__name__)
+
+
+# Start button command
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="کافیه اسم آهنگی که متنش رو می‌خوای تایپ کنی!")
 
-    
 
-
+# Scrapes the data out of web.
 def extractor(track_name, update, context):
     main_url = "https://www.lyricfinder.org/search/tracks/"
     req_url = main_url + track_name
@@ -40,17 +47,14 @@ def extractor(track_name, update, context):
         'title': title,
         'lyrics-link': links[i]
         }
+
         all_info.append(info)
-    
-    
-    button_list = []
-    for i in range(0, len(artists)):
-        button_list.append('InlineKeyboardButton(%s, callback_data=%s)' % (all_info[i]['title'], all_info[i]['lyrics_link']))
-        reply_markup = InlineKeyboardMarkup(util.build_menu(button_list, n_cols=2))
-        context.bot.send_message(chat_id=update.effective_chat.id, text='نتایج:', reply_markup=reply_markup)
 
+        ## This is a fucking test
+        context.bot.send_message(chat_id=update.effective_chat.id, text=all_info)
+        
 
-
+# Checks if the track's name is written in English
 def isEnglish(user_input):
     try:
         user_input.encode(encoding='utf-8').decode('ascii')
@@ -59,6 +63,7 @@ def isEnglish(user_input):
     else:
         return True
 
+# If text in English it passes the text to extractor
 def get_track(update, context):
     if isEnglish(update.message.text):
         extractor(update.message.text, update, context)
@@ -66,16 +71,35 @@ def get_track(update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text='انگلیسی تایپ کن دیگه :)')
 
 
+def error(update, context):
+    logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 
 def main():
-    updater = Updater(token='TOKEN', use_context=True)
-    dispatcher = updater.dispatcher
+    ####  Starting the bot ####
+
+    # creates Updater and passes TOKEN
+    updater = Updater(token='1006025104:AAEltikc297DUmXylZ51z3_TFFvSWaeZ1ko', use_context=True)
+    
+    # Getting dispatcher to register handlers
+    dp = updater.dispatcher
+
+    # Registering my functions
     start_handler = CommandHandler('start', start)
     track_handler = MessageHandler(Filters.text, get_track)
-    dispatcher.add_handler(track_handler)
-    dispatcher.add_handler(start_handler)
+    extractor_handler = MessageHandler(Filters.text, extractor)
+
+    dp.add_handler(extractor_handler)
+    dp.add_handler(track_handler)
+    dp.add_handler(start_handler)
+
+    # Registering Error fuctions
+    dp.add_error_handler(error)
+    
+    # Starts BOT
     updater.start_polling()
+
+    # Stops the Process when you press CTRL+C
     updater.idle()
 
 if __name__ == "__main__":
